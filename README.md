@@ -3,27 +3,52 @@ Python object serializer
 
 python 对象序列化器 
 
-~~~py
+~~~python
 from serializer import serializer
+
+
 class obj2():
-	name = 'hi'
-	my_list = ['this', 'is', 'python']
-	m_attr = 'serializer'
+    name = 'hi'
+    my_list = ['this', 'is', 'python']
+    m_attr = 'serializer'
+
+    def hi():
+        pass
+
+    def __init__(self):
+        self.__x = 'hi'
+
+    @property
+    def x(self):
+        return self.__x
+
+    @x.setter
+    def x(self, value):
+        self.__x = value
+
+    @x.deleter
+    def x(self):
+        del self.__x
+
+
 class obj1():
-	name = "I'm"
-	my_list = ['object',obj2()]
-	m_attr = {'I','can','mapping','the','object','to','dict',obj2()}
+    name = "I'm"
+    my_list = ['object', obj2()]
+    m_attr = {'I', 'can', 'mapping', 'the', 'object', 'to', 'dict', obj2()}
 
 print serializer(obj1())
+
 ~~~
 
 ~~~python
-//the print
+//the output
 {
-	'my_list': [
-        'object', 
+    'my_list': [
+        'object',
         {
-            'my_list': [
+            'x': 'hi',
+            'my_list':
+            [
                 'this',
                 'is',
                 'python'
@@ -34,7 +59,11 @@ print serializer(obj1())
     ],
     'name': "I'm",
     'm_attr': [
+        'I',
+        'object',
+        'mapping',
         {
+            'x': 'hi',
             'my_list': [
                 'this',
                 'is',
@@ -43,9 +72,6 @@ print serializer(obj1())
             'name': 'hi',
             'm_attr': 'serializer'
         },
-        'I',
-        'object',
-        'mapping',
         'to',
         'dict',
         'can',
