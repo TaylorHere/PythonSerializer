@@ -1,7 +1,7 @@
 # PythonSerializer
 Python object serializer
 
-python 对象序列化器 
+东半球最好用的 python 对象序列化器 
 
 ~~~python
 from serializer import serializer
@@ -80,3 +80,4 @@ print serializer(obj1())
 }
 ~~~
 
+发送至锤子手机
