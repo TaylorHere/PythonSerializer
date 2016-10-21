@@ -1,7 +1,5 @@
 def serializer(origin_class):
 
-    return typping(origin_class)
-
     def cycling(obj):
         if isinstance(obj, (set, list)):
             m_list = []
@@ -34,3 +32,5 @@ def serializer(origin_class):
 
     def attr_dict(obj):
         return dict([[a, getattr(obj, a)] for a in dir(obj) if '__' not in a])
+
+    return typping(origin_class)
