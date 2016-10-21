@@ -11,8 +11,8 @@ class obj2():
 	m_attr = 'serializer'
 class obj1():
 	name = "I'm"
-	my_list = ['object',obj1()]
-	m_attr = {'I','can','mapping','the','object','to','dict',obj1()}
+	my_list = ['object',obj2()]
+	m_attr = {'I','can','mapping','the','object','to','dict',obj2()}
 
 print serializer(obj1())
 ~~~
