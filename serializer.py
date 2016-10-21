@@ -22,7 +22,7 @@ def serializer(origin_class):
             return cycling(obj)
         elif isinstance(obj, dict):
             return cycling(obj)
-        elif isinstance(obj, (float, int, basestring)):
+        elif isinstance(obj, (float, int, basestring, bool)):
             return obj
         else:
             return typping(mapping(obj))
