@@ -31,6 +31,10 @@ def serializer(origin_class):
         return attr_dict(obj)
 
     def attr_dict(obj):
-        return dict([[a, getattr(obj, a)] for a in dir(obj) if '__' not in a])
-
+        full = dict([[e, obj.__dict__[e]]
+             for e in obj.__dict__ if '__' not in e and not hasattr(obj.__dict__[e], '__call__')])
+        proper = dict([[p, obj.__dict__[p].__get__(obj, type(obj))]
+               for p in full if hasattr(full[p], 'fset')])
+        full.update(proper)
+        return full
     return typping(origin_class)
