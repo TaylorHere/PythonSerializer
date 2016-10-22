@@ -80,4 +80,17 @@ print serializer(obj1())
 }
 ~~~
 
+~~~python
+#Useage with flask and SQLalchemy
+from serializer import serializer
+def my_location():
+    if request.method == 'GET':
+        user = db_session.query(User).filter(
+            User.openid == session['user_id']).first()
+        addresses = user.addresses
+        return jsonify({'data': serializer(addresses, 'sqlalchemy')})
+~~~
+
+
+
 发送至锤子手机
