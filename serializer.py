@@ -36,11 +36,13 @@ def serializer(origin_instance, class_type='basic'):
             return attr_dict_from_sqlalchemy(instance)
 
     def attr_dict_from_basic(instance):
-
+        # find out the members of the instance except function
         full = dict([[e, instance.__getattribute__(e)] for e in dir(instance) if not e.startswith('_') and not hasattr(
             instance.__getattribute__(e), '__call__')])
+        # find out all the properties in the instance then get there's vaule
         proper = dict([[p, getattr(instance, e).__get__(instance, type(instance))]
                        for p in full if hasattr(full[p], 'fset')])
+        # replace property's value into real value of the property
         full.update(proper)
         return full
 
