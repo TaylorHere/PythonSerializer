@@ -88,7 +88,7 @@ def my_location():
         user = db_session.query(User).filter(
             User.openid == session['user_id']).first()
         addresses = user.addresses
-        return jsonify({'data': serializer(addresses, 'sqlalchemy')})
+        return jsonify({'data': serializer(addresses.instance, 'sqlalchemy')})
 ~~~
 
 
