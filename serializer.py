@@ -1,5 +1,5 @@
-def serializer(origin_instance):
-
+def serializer(origin_instance, class_type='basic'):
+    # class_type choice 'sqlalchemy', 'basic'
     def cycling(instance):
         if isinstance(instance, (set, list)):
             m_list = []
@@ -24,18 +24,29 @@ def serializer(origin_instance):
             return cycling(instance)
         elif isinstance(instance, (float, int, basestring, bool)):
             return instance
+        elif instance is None:
+            return None
         else:
             return typping(mapping(instance))
 
     def mapping(instance):
-        return attr_dict(instance)
+        if class_type == 'basic':
+            return attr_dict_from_basic(instance)
+        elif class_type == 'sqlalchemy':
+            return attr_dict_from_sqlalchemy(instance)
 
-    def attr_dict(instance):
+    def attr_dict_from_basic(instance):
 
-        full = dict([[e, getattr(instance, e)] for e in dir(instance) if '__' not in e and not hasattr(
-            getattr(instance, e), '__call__')])
+        full = dict([[e, instance.__getattribute__(e)] for e in dir(instance) if not e.startswith('_') and not hasattr(
+            instance.__getattribute__(e), '__call__')])
         proper = dict([[p, getattr(instance, e).__get__(instance, type(instance))]
                        for p in full if hasattr(full[p], 'fset')])
         full.update(proper)
+        return full
+
+    def attr_dict_from_sqlalchemy(instance):
+
+        full = dict([[e, instance.__getattribute__(e)]
+                     for e in instance.__mapper__.c.keys()])
         return full
     return typping(origin_instance)
